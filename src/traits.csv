@@ -1,0 +1,6 @@
+Trait,1,2,3,4,5,6,7,8,9,10,Input (x),Trigger (y),Duration,Stacks Trigger (z),Stacks Cap
+KDA,,,AD:0.09;AP:0.09,,AD:0.15;AP:0.15,,AD:0.24;AP:0.24,,,AD:0.40;AP:0.40,,,,,
+8-Bit,,AD:0.045*x,,AD:0.075*x,,AD:0.12*x,,,,,Stacks: ,,,,
+Big Shot,,AD:0.1+0.4*y,,AD:0.18+0.6*y,,AD:0.3+1*y,,,,,,cast,3,,
+Spellweaver,,,AP:0.2+0.01*z,,AP:0.35+0.02*z,,AP:0.6+0.03*z,,,,,,,cast 1,
+Rapidfire,,AS:0.1+0.04*z,,AS:0.1+0.08*z,,AS:0.1+0.14*z,,,,,,,,attack 1,10

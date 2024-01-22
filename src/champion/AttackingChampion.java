@@ -22,7 +22,13 @@ public abstract class AttackingChampion extends CastChampion{
 
     @Override
     public void attack() {
-        float damage = baseNonCrit() * (1 + (stats.get("crit") * stats.get("critDmg")));
+        float damage;
+        if (stats.get("crit") > 1) {
+            damage = baseNonCrit() * (1 + stats.get("critDmg") + (stats.get("crit") - 1) / 2);
+        }
+        else {
+            damage = baseNonCrit() * (1 + (stats.get("crit") * stats.get("critDmg")));
+        }
         if (stats.get("on-hitDmg") != null) {
                 damage += baseNonCrit() * stats.get("on-hitDmg");
             }

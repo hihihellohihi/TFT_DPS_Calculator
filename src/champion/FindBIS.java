@@ -84,6 +84,7 @@ public class FindBIS {
         }
         itemProcessor.items.remove("Guardbreaker");
         itemProcessor.items.remove("Giant Slayer");
+        itemProcessor.items.remove("Blue Buff");
         return FindAllBIS(champName, traitSizes, traitStacks, targets, time, traitProcessor,
                 itemProcessor, champProcessor);
     }

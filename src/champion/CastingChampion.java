@@ -71,14 +71,24 @@ public class CastingChampion extends AttackingChampion{
         stats.put("numCasts", stats.get("numCasts") + 1);
         float ADdamage = baseNonCrit();
         if (stats.get("castCrit") != 0) {
-            ADdamage = ADdamage * (1 + stats.get("crit") * stats.get("critDmg"));
+            if (stats.get("crit") > 1) {
+                ADdamage = baseNonCrit() * (1 + stats.get("critDmg") + (stats.get("crit") - 1) / 2);
+            }
+            else {
+                ADdamage = baseNonCrit() * (1 + (stats.get("crit") * stats.get("critDmg")));
+            }
         }
         counter.dealDamage(ADdamage * stats.get("STADMult") + ADdamage * stats.get("AOEADMult")
                 * stats.get("targets"));
         float APdamage = (stats.get("baseAP") * (1 + stats.get("APMult"))) * (1 + stats.get("crit")
                 * stats.get("critDmg"));
         if (stats.get("castCrit") != 0) {
-            APdamage = APdamage * (1 + stats.get("crit") * stats.get("critDmg"));
+            if (stats.get("crit") > 1) {
+                APdamage = baseNonCrit() * (1 + stats.get("critDmg") + (stats.get("crit") - 1) / 2);
+            }
+            else {
+                APdamage = baseNonCrit() * (1 + (stats.get("crit") * stats.get("critDmg")));
+            }
         }
         counter.dealDamage(APdamage * stats.get("STAPMult") + APdamage * stats.get("AOEAPMult")
                 * stats.get("targets"));

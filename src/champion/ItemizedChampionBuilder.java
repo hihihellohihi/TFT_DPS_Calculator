@@ -13,9 +13,9 @@ public class ItemizedChampionBuilder extends BuildChampionWithTraits {
     }
 
 
-    public BuffableChampion buildChamp(HashMap<String, String> c, int[] traitNumbers, int[] traitInputs, int targets,
+    public BuffableChampion buildChamp(HashMap<String, Float> c, String cTraits, int[] traitNumbers, int[] traitInputs, int targets,
                                        String[] items) {
-        BuffableChampion result =  super.buildChamp(c, traitNumbers, traitInputs, targets);
+        BuffableChampion result =  super.buildChamp(c, cTraits, traitNumbers, traitInputs, targets);
         for (String item: items) {
             Item newItem = new Item(result, item, this.items.get(item));
             result.allBuffers.add(newItem);

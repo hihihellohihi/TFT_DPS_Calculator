@@ -14,24 +14,11 @@ public class BuildChampionWithTraits {
         this.traits = traits;
     }
 
-    public BuffableChampion buildChamp(HashMap<String, String> c, int[] traitNumbers, int[] traitInputs, int targets) {
+    public BuffableChampion buildChamp(HashMap<String, Float> c, String cTraits, int[] traitNumbers, int[] traitInputs, int targets) {
         BuffableChampion result;
-        if (Objects.equals(c.get("canCast"), "y")) {
-            result = new BuffableChampion(Float.parseFloat(c.get("AD")),
-                    Float.parseFloat(c.get("AP")), Float.parseFloat(c.get("AS")),
-                    Float.parseFloat(c.get("crit")), Float.parseFloat(c.get("critDmg")),
-                    Float.parseFloat(c.get("STADMult")), Float.parseFloat(c.get("AOEADMult")),
-                    Float.parseFloat(c.get("STAPMult")), Float.parseFloat(c.get("AOEAPMult")),
-                    Float.parseFloat(c.get("mana")), Float.parseFloat(c.get("manaMult")),
-                    Float.parseFloat(c.get("currentMana")), targets, Float.parseFloat(c.get("castTime")));
-        }
-        else {
-            result = new BuffableChampion(Float.parseFloat(c.get("AD")),
-                    Float.parseFloat(c.get("AP")), Float.parseFloat(c.get("AS")),
-                    Float.parseFloat(c.get("crit")), Float.parseFloat(c.get("critDmg")),
-                    targets, Float.parseFloat(c.get("castTime")));
-        }
-        String[] champTraits = c.get("Traits").split(",");
+        result = new BuffableChampion(c);
+        result.stats.putIfAbsent("targets", (float) targets);
+        String[] champTraits = cTraits.split(",");
         for (int i = 0; i < champTraits.length; i++) {
             int traitNum;
             int traitInput;

@@ -1,23 +1,16 @@
 package champion;
 
-public abstract class AttackingChampion extends CastChampion{
+import java.util.HashMap;
+
+public abstract class AttackingChampion extends StatChampion{
 
     public DamageCounter counter = new DamageCounter();
     public float timeSinceStart = 0;
     /**
      * Constructor.
      */
-    public AttackingChampion(float AD, float AP, float AS, float crit, float critDmg) {
-        super(AD, AP, AS, crit, critDmg);
-    }
-
-    /**
-     * Constructor.
-     */
-    public AttackingChampion(float AD, float AP, float AS, float crit, float critDmg,
-                             float STADMult, float AOEADMult, float STAPMult, float AOEAPMult,
-                             float mana, float manaMult, float currentMana) {
-        super(AD, AP, AS, crit, critDmg, STADMult, AOEADMult, STAPMult, AOEAPMult, mana, manaMult, currentMana);
+    public AttackingChampion(HashMap<String, Float> stats) {
+        super(stats);
     }
 
     @Override

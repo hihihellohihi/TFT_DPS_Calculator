@@ -1,51 +1,15 @@
 package champion;
 
+import java.util.HashMap;
+
 public class CastingChampion extends AttackingChampion{
 
     public float timeSinceCast = 1000;
     /**
      * Constructor.
-     *
-     * @param AD
-     * @param AP
-     * @param AS
-     * @param crit
-     * @param critDmg
-     * @param targets
-     * @param castTime
      */
-    public CastingChampion(float AD, float AP, float AS, float crit, float critDmg, int targets, float castTime) {
-        super(AD, AP, AS, crit, critDmg);
-        this.stats.put("targets", (float) targets);
-        this.stats.put("castCrit", 0f);
-        this.stats.put("castTime", castTime);
-        this.stats.put("numCasts", 0f);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param AD base AD
-     * @param AP base AP (likely 100)
-     * @param AS base AS
-     * @param crit base crit
-     * @param critDmg base critDmg
-     * @param STADMult base AD mult that cannot hit AOE
-     * @param AOEADMult base AD mult that can hit AOE
-     * @param STAPMult base AP mult that cannot hit AOE
-     * @param AOEAPMult base AP mult that can hit AOE
-     * @param mana base mana cost
-     * @param targets number of targets being hit
-     * @param castTime cast time
-     */
-    public CastingChampion(float AD, float AP, float AS, float crit, float critDmg, float STADMult,
-                           float AOEADMult, float STAPMult, float AOEAPMult, float mana, float manaMult,
-                           float currentMana, float targets, float castTime) {
-        super(AD, AP, AS, crit, critDmg, STADMult, AOEADMult, STAPMult, AOEAPMult, mana, manaMult, currentMana);
-        this.stats.put("targets", (float) targets);
-        this.stats.put("castCrit", 0f);
-        this.stats.put("castTime", castTime);
-        this.stats.put("numCasts", 0f);
+    public CastingChampion(HashMap<String, Float> stats) {
+        super(stats);
     }
 
     @Override
@@ -68,6 +32,7 @@ public class CastingChampion extends AttackingChampion{
 
     @Override
     public void cast() {
+        stats.putIfAbsent("numCasts", 0f);
         stats.put("numCasts", stats.get("numCasts") + 1);
         float ADdamage = baseNonCrit();
         if (stats.get("castCrit") != 0) {
@@ -78,8 +43,6 @@ public class CastingChampion extends AttackingChampion{
                 ADdamage = baseNonCrit() * (1 + (stats.get("crit") * stats.get("critDmg")));
             }
         }
-        counter.dealDamage(ADdamage * stats.get("STADMult") + ADdamage * stats.get("AOEADMult")
-                * stats.get("targets"));
         float APdamage = (stats.get("baseAP") * (1 + stats.get("APMult"))) * (1 + stats.get("crit")
                 * stats.get("critDmg"));
         if (stats.get("castCrit") != 0) {
@@ -90,8 +53,25 @@ public class CastingChampion extends AttackingChampion{
                 APdamage = baseNonCrit() * (1 + (stats.get("crit") * stats.get("critDmg")));
             }
         }
-        counter.dealDamage(APdamage * stats.get("STAPMult") + APdamage * stats.get("AOEAPMult")
-                * stats.get("targets"));
-        timeSinceStart += stats.get("castTime");
+        if (stats.containsKey("triggerCast2")) {
+            if (stats.get("numCasts") % stats.get("triggerCast2") == 0) {
+                counter.dealDamage(ADdamage * stats.get("STADMult2") + ADdamage * stats.get("AOEADMult2")
+                        * stats.get("targets"));
+                counter.dealDamage(APdamage * stats.get("STAPMult2") + APdamage * stats.get("AOEAPMult2")
+                        * stats.get("targets"));
+            }
+        }
+        else {
+            counter.dealDamage(ADdamage * stats.get("STADMult") + ADdamage * stats.get("AOEADMult")
+                    * stats.get("targets"));
+            counter.dealDamage(APdamage * stats.get("STAPMult") + APdamage * stats.get("AOEAPMult")
+                    * stats.get("targets"));
+        }
+        if (stats.get("castTime") == 'x') {
+            timeSinceStart += 1/(stats.get("baseAS") * (1 + stats.get("ASMult")));
+        }
+        else {
+            timeSinceStart += stats.get("castTime");
+        }
     }
 }

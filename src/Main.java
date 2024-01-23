@@ -22,14 +22,20 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Scanner champNameScan = new Scanner(System.in);
+//        ItemizedChampionBuilder champBuilder = new ItemizedChampionBuilder(traitProcessor.traits,
+//                itemProcessor.items);
+//        BuffableChampion currentChamp = champBuilder.buildChamp(
+//                champProcessor.champs.get("Corki 3"), champProcessor.champTraits.get("Corki 3"),
+//                new int[]{2, 2}, new int[]{10}, 2, new String[]{"Infinity Edge", "Spear of Shojin", "Red Buff"});
+//        while (currentChamp.timeSinceStart <15) {
+//            currentChamp.attack();
+//        }
+//        System.out.println(currentChamp.counter.getDamage() / currentChamp.timeSinceStart);
+        Scanner champScan = new Scanner(System.in);
         System.out.println("Enter [champion_name star_level]");
-
-        String champName = champNameScan.nextLine();
-        Scanner conditional = new Scanner(System.in);
+        String champName = champScan.nextLine();
         System.out.println("Do you want conditional items? (Giant Slayer, Guardbreaker, Blue Buff) Y/N");
-
-        String conditionalYN = conditional.nextLine();  // Read user input
+        String conditionalYN = champScan.nextLine();  // Read user input
         if (conditionalYN.equalsIgnoreCase("y")) {
             ArrayList<Object[]> BIS = FindBIS.FindConditionalBIS(champName, new int[] {2, 2},
                     new int[] {10}, 2 , 15);

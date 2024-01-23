@@ -9,61 +9,26 @@ public class BuffableChampion extends CastingChampion{
     public HashMap<String, HashMap<Object, Float>> allBuffs = new HashMap<String, HashMap<Object, Float>>();
 
     public HashSet<IBuffer> allBuffers = new HashSet<IBuffer>();
-    /**
-     * Constructor.
-     *
-     * @param AD
-     * @param AP
-     * @param AS
-     * @param crit
-     * @param critDmg
-     * @param targets
-     * @param castTime
-     */
-    public BuffableChampion(float AD, float AP, float AS, float crit, float critDmg, int targets, float castTime) {
-        super(AD, AP, AS, crit, critDmg, targets, castTime);
-        allBuffs.put("AD", new HashMap<Object, Float>());
-        allBuffs.put("AP", new HashMap<Object, Float>());
-        allBuffs.put("AS", new HashMap<Object, Float>());
-        //stupid workaround because buffs overwrite the initial stats
-        allBuffs.putIfAbsent("crit", new HashMap<Object, Float>());
-        allBuffs.get("crit").put(this, crit);
-        allBuffs.putIfAbsent("critDmg", new HashMap<Object, Float>());
-        allBuffs.get("critDmg").put(this, critDmg);
-    }
 
     /**
      * Constructor.
      *
-     * @param AD        base AD
-     * @param AP        base AP (likely 100)
-     * @param AS        base AS
-     * @param crit      base crit
-     * @param critDmg   base critDmg
-     * @param STADMult  base AD mult that cannot hit AOE
-     * @param AOEADMult base AD mult that can hit AOE
-     * @param STAPMult  base AP mult that cannot hit AOE
-     * @param AOEAPMult baAse AP mult that can hit AOE
-     * @param mana      base mana cost
-     * @param targets   number of targets being hit
-     * @param castTime  cast time
      */
-    public BuffableChampion(float AD, float AP, float AS, float crit, float critDmg, float STADMult,
-                           float AOEADMult, float STAPMult, float AOEAPMult, float mana, float manaMult,
-                           float currentMana, float targets, float castTime) {
-        super(AD, AP, AS, crit, critDmg, STADMult, AOEADMult, STAPMult, AOEAPMult,
-                mana, manaMult, currentMana, targets, castTime);
+    public BuffableChampion(HashMap<String, Float> stats) {
+        super(stats);
         //stupid workaround because buffs overwrite the initial stats
         allBuffs.putIfAbsent("crit", new HashMap<Object, Float>());
-        allBuffs.get("crit").put(this, crit);
+        allBuffs.get("crit").put(this, stats.get("crit"));
         allBuffs.putIfAbsent("critDmg", new HashMap<Object, Float>());
-        allBuffs.get("critDmg").put(this, critDmg);
-        allBuffs.putIfAbsent("mana", new HashMap<Object, Float>());
-        allBuffs.get("mana").put(this, mana);
-        allBuffs.putIfAbsent("currentMana", new HashMap<Object, Float>());
-        allBuffs.get("currentMana").put(this, currentMana);
-        allBuffs.putIfAbsent("manaMult", new HashMap<Object, Float>());
-        allBuffs.get("manaMult").put(this, manaMult);
+        allBuffs.get("critDmg").put(this, stats.get("critDmg"));
+        if (stats.get("canCast") == 1) {
+            allBuffs.putIfAbsent("mana", new HashMap<Object, Float>());
+            allBuffs.get("mana").put(this, stats.get("mana"));
+            allBuffs.putIfAbsent("currentMana", new HashMap<Object, Float>());
+            allBuffs.get("currentMana").put(this, stats.get("currentMana"));
+            allBuffs.putIfAbsent("manaMult", new HashMap<Object, Float>());
+            allBuffs.get("manaMult").put(this, stats.get("manaMult"));
+        }
     }
 
     public void updateBuffs(String attribute) {

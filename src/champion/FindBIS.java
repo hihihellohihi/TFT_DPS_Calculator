@@ -33,7 +33,7 @@ public class FindBIS {
                         String[] itemArray = new String[]{(String) item1, (String) item2,
                                 (String) item3};
                         BuffableChampion currentChamp = champBuilder.buildChamp(
-                                champProcessor.champs.get(champName),
+                                (HashMap<String, Float>) champProcessor.champs.get(champName).clone(), champProcessor.champTraits.get(champName),
                                 traitSizes, traitStacks, targets, itemArray);
                         while (currentChamp.timeSinceStart < time) {
                             currentChamp.attack();
